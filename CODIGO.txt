@@ -1,0 +1,697 @@
+
+ MySQL  localhost:3306  SQL > show databases
+                          ... ;
++----------------------+
+| Database             |
++----------------------+
+| information_schema   |
+| banbajio             |
+| banbajiodosgruposres |
+| datos_coche          |
+| datoscoches          |
+| dbclientes           |
+| employees            |
+| evaluacion_1         |
+| inventario_          |
+| inventario_bdd       |
+| mysql                |
+| performance_schema   |
+| sakila               |
+| sys                  |
+| tecnologico_ii       |
+| world                |
++----------------------+
+16 rows in set (0.0035 sec)
+MySQL Shell 8.0.12
+
+Copyright (c) 2016, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+
+
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+
+ MySQL  SQL > \connect -c root@localhost
+The -c option is deprecated, please use --mysql or -mc instead
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost:3306'? [Y]es/[N]o/Ne[v]er (default No): y
+Fetching schema names for autocompletion... Press ^C to stop.
+Your MySQL connection id is 29
+Server version: 8.0.12 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+
+ MySQL  localhost:3306 ssl  SQL > \use instituto
+Default schema set to `instituto`.
+Fetching table and column names from `instituto` for auto-completion... Press ^C to stop.
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table datos_instituto (
+                                         ... clave_tec int primary key auto_increment,
+                                         ... no_telefono varchar(14),
+                                         ... correo varchar(45),
+                                         ... codigo_postal varchar(10),
+                                         ... calle varchar(90),
+                                         ... colonia varchar(60),
+                                         ... numero varchar(8),
+                                         ... ciudad varchar(45),
+                                         ... estado varchar(45),
+                                         ... pais varchar(45),
+                                         ... pagina_web varchar(50));
+Query OK, 0 rows affected (0.5499 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table Departamentos(
+                                         ... clave_depar int auto_increment primary key,
+                                         ... nombre_depar varchar(45),
+                                         ... presupuesto int);
+Query OK, 0 rows affected (0.5074 sec)
+
+
+
+MySQL  localhost:3306 ssl  instituto  SQL > create table Alumnos( no_control int auto_increment primary key, nombre varchar(50), apellido_pat varchar(50), apellido_mat varchar(50), lugar_nacimiento enum('Aguascalientes','Baja California', 'Baja California Sur','Campeche','Chiapas','Chihuahua','Coahuila','Colima','Distrito Federal', 'Durango','Edo Mexico','Guanajuato','Guerrero','Hidalgo','Jalisco','Michoacán','Morelos','Nayarit','Nuevo Leon', 'Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosi','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatan','Zacatecas') default 'Chihuahua', codigo_postal varchar(10), calle varchar(90), colonia varchar(60), numero varchar(8), curp varchar(20), semestre int, sexo enum('Femenino','Masculino','Otros'), estado_civil enum('Soltero','Casado','Divorciado','Union Libre','Viudo','Otro'),  servicio_medico enum('IMSS','ISSTE','ICHISAL','SEGURO POPULAR','PRIVADO','PENSIONES','OTROS'), id_carrera int, fecha_nacimiento date, id_beca int);
+Query OK, 0 rows affected (0.5088 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table Materia(
+                                         ... id_materia int primary key auto_increment,
+                                         ... nombre varchar(50),
+                                         ... creditos int,
+                                         ... semestre int,
+                                         ... horas_teoricas int,
+                                         ... horas_practicas int);
+Query OK, 0 rows affected (0.4301 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table Carrera( id_carrera int auto_increment primary key, nombre varchar(50));
+Query OK, 0 rows affected (0.4677 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table Materia_Detalle(
+                                         ... id_materia int,
+                                         ... id_carrera int);
+Query OK, 0 rows affected (0.4582 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table Horario(
+                                         ... id_horario int auto_increment primary key,
+                                         ... id_carrera int,
+                                         ... no_control int,
+                                         ... clave_tec int,
+                                         ... semestre int,
+                                         ... id_dh int );
+Query OK, 0 rows affected (0.3905 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table detalle_horario(
+                                         ... id_dh int auto_increment primary key,
+                                         ... id_materia int,
+                                         ... id_hora int,
+                                         ... salon varchar(3),
+                                         ... grupo varchar(2));
+Query OK, 0 rows affected (0.4823 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table Empleado( id_empleado int auto_increment primary key, nombres varchar(50), apellido_pat varchar(50), apellido_mat varchar(50), rfc varchar(20) UNIQUE, curp varchar(20) UNIQUE, lugar_nacimiento enum('Aguascalientes','Baja California','Baja California Sur', 'Campeche','Chiapas','Chihuahua','Coahuila','Colima','Distrito Federal','Durango','Edo Mexico', 'Guanajuato','Guerrero','Hidalgo','Jalisco','Michoacan','Morelos','Nayarit','Nuevo Leon','Oaxaca', 'Puebla','Queretaro','Quintana Roo','San Luis Potosi','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatan','Zacatecas') default 'Chihuahua',
+                                         ...
+                                         ...
+                                         ... fecha_nacimiento date,
+                                         ... tipo_plaza enum('Planta','Contrato') default 'Contrato',
+                                         ... codigo_postal varchar(10),
+                                         ... calle varchar(90),
+                                         ... colonia varchar(60),
+                                         ... numero varchar(8),
+                                         ... telefono varchar(8),
+                                         ... email varchar(50),
+                                         ... calve_depar int);
+Query OK, 0 rows affected (0.6732 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table Puesto(
+                                         ... id_puesto int auto_increment primary key,
+                                         ... nombre varchar(100),
+                                         ... sueldo int);
+Query OK, 0 rows affected (0.6455 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table empleados_puestos(
+                                         ... id_empleado int,
+                                         ... id_puesto int);
+Query OK, 0 rows affected (0.4453 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table Hora(
+                                         ... id_hora int auto_increment primary key,
+                                         ... hora time );
+Query OK, 0 rows affected (0.5048 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table ExtraEscolares(
+                                         ... id_extra int auto_increment primary key,
+                                         ... nombre varchar(50),
+                                         ... num_horas int);
+Query OK, 0 rows affected (0.4107 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table actividad_complementaria(
+                                         ... id_act int auto_increment primary key,
+                                         ... id_extra int,
+                                         ... id_empleado int,
+                                         ... no_control int);
+Query OK, 0 rows affected (0.4562 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table Beca(
+                                         ... id_beca int auto_incremet primary key,
+                                         ... tipo_beca enum('Transporte','Manutencion','Alimenticia','Intercambio','Otras'),                                                                                     ... monto_beca int default 1200,
+                                         ... periocidad enum('Mensual','Anual','Semestral'));
+Query OK, 0 rows affected (0.3972 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table becario(
+                                         ... int_beca int,
+                                         ... no_control int);
+Query OK, 0 rows affected (0.5259 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table boleta(
+                                         ... id_boleta int auto_increment primary key,
+                                         ... no_control int,
+                                         ... semestre int,
+                                         ... id_carrera int,
+                                         ... periodo enum('Enero-Junio','Agosto-Diciembre','Verano'),
+                                         ... año varchar(4) default '2019');
+Query OK, 0 rows affected (0.4648 sec)
+
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table detalle_boleta( id_boleta int, id_materia int, calificacion int, tipo_de_evaluacion enum('Ev.Ord.1ra','Ev.Ord.2da','Ev.Reg.1ra','Ev.Reg.2da','Especial')) ;
+Query OK, 0 rows affected (0.4418 sec)
+
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > create table Emergencia(
+                                         ... no_control int,
+                                         ... num_de_emergencia_1 varchar(20),
+                                         ... num_de_emergencia_2 varchar(20),
+                                         ... tipo_de_sangre enum('O+','A+','B+','AB+','O-','A-','B-','AB-'),
+                                         ... alergias varchar(50));
+Query OK, 0 rows affected (0.4563 sec)
+
+//CREACION DE LLAVES FORANEAS
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table Alumnos add constraint  foreign key (id_carrera) references Carrera (id_carrera) on delete Restrict on update cascade;
+Query OK, 0 rows affected (1.5563 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table Alumnos add constraint foreign key (id_beca) references Beca (id_beca) on delete cascade on update cascade;
+Query OK, 0 rows affected (1.3959 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table carrera add constraint foreign key  (clave_depar)  references departamentos(clave_depar) on delete restrict on update restrict;
+Query OK, 0 rows affected (1.3640 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table materia_detalle add constraint foreign key (id_carrera) references Carrera (id_carrera) on delete restrict on update cascade;
+Query OK, 0 rows affected (1.3693 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table materia_detalle add constraint foreign key (id_materia) references Materia (id_materia) on delete restrict on update restrict;
+Query OK, 0 rows affected (1.1018 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table Horario add constraint foreign key (no_control) references Alumnos (no_control) on delete restrict on update restrict;
+Query OK, 0 rows affected (1.2211 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table Horario add constraint foreign key (clave_tec) references datos_instituto (clave_tec) on delete restrict on update cascade;
+Query OK, 0 rows affected (1.3484 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table detalle_horario add constraint foreign key (id_materia) references Materia (id_materia) on delete restrict on update cascade ;
+Query OK, 0 rows affected (1.4181 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table detalle_horario add constraint foreign key (id_hora) references hora (id_hora) on delete restrict on update cascade ;
+Query OK, 0 rows affected (1.3004 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table detalle_horario add constraint foreign key (id_empleado) references empleado (id_empleado) on delete cascade on update cascade ;
+Query OK, 0 rows affected (1.9773 sec)
+
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table detalle_horario add constraint foreign key (id_horario) references Horario (id_horario) on delete cascade on update cascade ;
+Query OK, 0 rows affected (1.8921 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table Empleado add constraint foreign key (clave_depar) references departamentos (clave_depar) on delete restrict on update restrict;
+Query OK, 0 rows affected (2.1972 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table empleados_puestos add constraint foreign key (id_empleado) references Empleado (id_empleado) on delete cascade on update cascade;
+Query OK, 0 rows affected (1.5435 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table empleados_puestos add constraint foreign key (id_puesto)
+                                         ... references puesto(id_puesto) on delete cascade on update cascade;
+Query OK, 0 rows affected (1.3408 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table actividad_complementaria add constraint foreign key (id_extra) references extraescolares(id_extra) on delete restrict on update cascade;
+Query OK, 0 rows affected (1.1629 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table actividad_complementaria add constraint foreign key (id_empleado) references empleado(id_empleado) on delete cascade on update cascade;
+Query OK, 0 rows affected (1.2831 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table actividad_complementaria add constraint foreign key (no_control) references Alumnos(no_control) on delete restrict on update restrict;
+Query OK, 0 rows affected (1.3912 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table becario add constraint foreign key (id_beca) references beca(id_beca) on delete cascade on update cascade;
+Query OK, 0 rows affected (1.3949 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table becario add constraint foreign key (no_control) references Alumnos(no_control) on delete restrict on update restrict;
+Query OK, 0 rows affected (1.5572 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table boleta add constraint foreign key (no_control) references Alumnos(no_control) on delete restrict on update restrict;
+Query OK, 0 rows affected (1.2668 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table detalle_boleta add constraint foreign key (id_materia) references materia(id_materia) on delete restrict on update cascade;
+Query OK, 0 rows affected (1.0469 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table detalle_boleta add constraint foreign key (id_boleta) references boleta(id_boleta) on delete cascade on update cascade;
+Query OK, 0 rows affected (1.5289 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table Emergencia add constraint foreign key (no_control) references Alumnos(no_control) on delete restrict on update restrict;
+Query OK, 0 rows affected (1.4058 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+//INSERTANDO DATOS EN LA BASE DE DATOS
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into datos_instituto(no_telefono,correo,codigo_postal, calle,colonia,numero,ciudad,estado, pais,pagina_web) values('44455563','profe@pasenos.porfis','43234','las industrias','rio aro','4321', 'chihuahua','chihuahua','mexico','eltec.com');
+Query OK, 1 row affected (0.2050 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into departamentos(nombre_depar, presupuesto) values('sistemas',50000) ;
+Query OK, 1 row affected (0.2421 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into departamentos(nombre_depar, presupuesto) values('industrial',80000);
+Query OK, 1 row affected (0.2004 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into departamentos(nombre_depar, presupuesto) values('ciencias basicas',50);
+Query OK, 1 row affected (0.1599 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into Carrera(nombre, clave_depar) values('sistemas',1);
+Query OK, 1 row affected (0.2258 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into Carrera(nombre, clave_depar) values('informatica',1);
+Query OK, 1 row affected (0.1903 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into Carrera(nombre, clave_depar) values('ing. industral',2);
+Query OK, 1 row affected (0.2494 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into beca (tipo_beca,monto_beca, periocidad) values('Transporte',3000,'mensual');
+Query OK, 1 row affected (0.2130 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into beca (tipo_beca,monto_beca, periocidad) values('Alimenticia',7000,'mensual');
+Query OK, 1 row affected (0.1523 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into beca (tipo_beca,monto_beca, periocidad) values('Intercambio',4000,'mensual');
+Query OK, 1 row affected (0.1933 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > Insert into Alumnos(nombre, apellido_pat, apellido_mat, codigo_postal,  calle, colonia, numero, cURP, semestre, sexo, estado_civil,  servicio_medico,id_Carrera,fecha_nacimiento,id_beca)  Values('Normando','Hernandez','De guadalupe de los anjeles de maria del socorro','54223','juan escutia','los colonos', '4321','NHDBDHJSDBHJSBDH',1,'Masculino','Soltero','IMSS',1,'1998-06-25',1);
+Query OK, 1 row affected (0.1660 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > Insert into Alumnos(nombre, apellido_pat, apellido_mat, codigo_postal,  calle, colonia, numero, cURP, semestre, sexo, estado_civil,  servicio_medico,id_Carrera,fecha_nacimiento,id_beca) Values('Maria','La Del','Barrio','3978','los angeles','azules', '4983','UHSHSAA',1,'Femenino','Soltero','IMSS',2,'1998-06-25',2);
+Query OK, 1 row affected (0.2334 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > Insert into Alumnos(nombre, apellido_pat, apellido_mat, codigo_postal,  calle, colonia, numero, cURP, semestre, sexo, estado_civil, servicio_medico,id_Carrera,fecha_nacimiento,id_beca)  Values('Rosa','Del Socorro De Maria','De Los Angeles','4567','Mexico','Rosario', '5436','HEIRJSAEFW',1,'Femenino','Soltero','ISSTE',3,'1999-01-25',3);
+Query OK, 1 row affected (0.1121 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > Insert into Alumnos(nombre, apellido_pat, apellido_mat, codigo_postal,  calle, colonia, numero, cURP, semestre, sexo, estado_civil,  servicio_medico,id_Carrera,fecha_nacimiento,id_beca)  Values('Raul Estefano','de la Rosa de la santisima trinidad','de marria de los angeles','8769','los angeles','azules', '5647','HUFUSAHSN',1,'Femenino','Soltero','IMSS',1,'1997-12-24',2);
+Query OK, 1 row affected (0.2401 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into materia(nombre, creditos, semestre, horas_teoricas, horas_practicas) values('calculo diferenciasl',5,1,90,0);
+Query OK, 1 row affected (0.1979 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into materia(nombre, creditos, semestre, horas_teoricas, horas_practicas) values('calculo integral',5,2,90,0);
+Query OK, 1 row affected (0.1360 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into materia(nombre, creditos, semestre, horas_teoricas, horas_practicas) values('programacion orientada a objetos',5,2,50,40);
+Query OK, 1 row affected (0.1832 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into materia(nombre, creditos, semestre, horas_teoricas, horas_practicas) values('Quimica',4,2,60,20);
+Query OK, 1 row affected (0.0788 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into materia(nombre, creditos, semestre, horas_teoricas, horas_practicas) values('calculo vectorial',5,3,80,10);
+Query OK, 1 row affected (0.2475 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into materia_detalle(id_materia, id_carrera) values(1,1);
+Query OK, 1 row affected (0.2038 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into materia_detalle(id_materia, id_carrera) values(1,2);
+Query OK, 1 row affected (0.1974 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into materia_detalle(id_materia, id_carrera) values(1,3);
+Query OK, 1 row affected (0.2108 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into materia_detalle(id_materia, id_carrera) values(4,3);
+Query OK, 1 row affected (0.1448 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into Empleado(nombres, apellido_pat,apellido_mat,rfc,curp,lugar_nacimiento,fecha_nacimiento, tipo_plaza,codigo_postal,calle,colonia,numero,telefono,email,clave_depar) values('pepito','de la rosa','melano','uyfjfvjufu','GASGDSGDSGH','Chihuahua','1987-06-21','Planta', '64534','casheshita','clunius','5643','467875','micorreo@email.com',1);
+Query OK, 1 row affected (0.2147 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into Empleado(nombres, apellido_pat,apellido_mat,rfc,curp,lugar_nacimiento,fecha_nacimiento, tipo_plaza,codigo_postal,calle,colonia,numero,telefono,email,clave_depar) values('Martin Antonio','Ayala','Cruz','fdasdfewr', 'ACMA19870825', 'Veracruz', '1987-08-25', 'Planta', '31545', 'Colonos', 'Paraderos', '7896', '4258796', 'ayalaCMaan@hotmail.com', 2);
+Query OK, 1 row affected (0.2768 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into Empleado(nombres, apellido_pat,apellido_mat,rfc,curp,lugar_nacimiento,fecha_nacimiento, tipo_plaza,codigo_postal,calle,colonia,numero,telefono,email,clave_depar) values('Pedro Aaron','Pedroza','Cristano','qwewqttryrt', 'PCPAA19970521', 'Veracruz', '1997-05-21', 'Planta', '59874', 'Colorado', 'Praderas', '6526', '4123569', 'PeCrap@hotmail.com', 3);
+Query OK, 1 row affected (0.1906 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into puesto(nombre,sueldo) values('docenete',5000000);
+Query OK, 1 row affected (0.1612 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into puesto(nombre, sueldo) values('intendentes', 1254688);
+Query OK, 1 row affected (0.2408 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into puesto(nombre,sueldo) values('coordinador',900000);
+Query OK, 1 row affected (0.1793 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into puesto(nombre, sueldo) values ('secretario', 156478);
+Query OK, 1 row affected (0.2271 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into empleados_puestos(id_empleado,id_puesto) values(1,2);
+Query OK, 1 row affected (0.2206 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into empleados_puestos(id_empleado,id_puesto) values(2,3);
+Query OK, 1 row affected (0.1093 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into empleados_puestos(id_empleado,id_puesto) values(3,1);
+Query OK, 1 row affected (0.2577 sec)
+
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into hora(hora) values('08:00-09:00');
+Query OK, 1 row affected (0.1114 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into hora(hora) values('09:00-10:00');
+Query OK, 1 row affected (0.1114 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL >  insert into hora(hora) values('10:00-11:00');
+Query OK, 1 row affected (0.1499 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into hora(hora) values('11:00-12:00');
+Query OK, 1 row affected (0.2533 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into Horario(no_control, clave_tec) values(4,1);
+Query OK, 1 row affected (0.2421 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into Horario(no_control,clave_tec) values(1,1);
+Query OK, 1 row affected (0.1201 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into Horario(no_control,clave_tec) values(2,1);
+Query OK, 1 row affected (0.2271 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into Horario(no_control,clave_tec) values(3,1);
+Query OK, 1 row affected (0.1882 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into detalle_horario(id_horario,id_materia,id_hora,salon,grupo,id_empleado) values(1,1,1, 'F2', 'A', 1);
+Query OK, 1 row affected (0.2339 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into detalle_horario(id_horario, id_materia, id_hora, salon, grupo, id_empleado) values (2,2,2 ,'F1', 'B', 2);
+Query OK, 1 row affected (0.1955 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into detalle_horario(id_horario, id_materia, id_hora, salon, grupo, id_empleado) values (2,3,2, 'F3', 'B', 3);
+Query OK, 1 row affected (0.2087 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into detalle_horario(id_horario, id_materia, id_hora, salon, grupo, id_empleado) values (2,3,3, 'F5', 'A', 3);
+Query OK, 1 row affected (0.1065 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into detalle_horario(id_horario, id_materia, id_hora, salon, grupo, id_empleado) values (3,3,3, 'F3', 'B', 1);
+Query OK, 1 row affected (0.1893 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into ExtraEscolares(nombre,num_horas) values('musiquita',10);
+Query OK, 1 row affected (0.1400 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into ExtraEscolares(nombre,num_horas) values('atletismo',10);
+Query OK, 1 row affected (0.2858 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into ExtraEscolares(nombre,num_horas) values('baile',10);
+Query OK, 1 row affected (0.0796 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into ExtraEscolares(nombre,num_horas) values('karate-kit II',10);
+Query OK, 1 row affected (0.0807 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into actividad_complementaria(id_act, id_extra, id_empleado, no_control) values(1,1,2,1);
+Query OK, 1 row affected (0.2379 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into actividad_complementaria(id_act, id_extra, id_empleado, no_control) values(2,2,2,2);
+Query OK, 1 row affected (0.2618 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into actividad_complementaria(id_act, id_extra, id_empleado, no_control) values(3,3,1,3);
+Query OK, 1 row affected (0.2308 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into becario (id_beca, no_control) values (1, 1);
+Query OK, 1 row affected (0.2881 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into becario (id_beca, no_control) values (2, 2);
+Query OK, 1 row affected (0.1799 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into becario (id_beca, no_control) values (3, 3);
+Query OK, 1 row affected (0.1982 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into boleta (no_control,periodo,año) value(1,'Enero-Junio','2019');
+Query OK, 1 row affected (0.2429 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into boleta (no_control,periodo,año) value(2,'Enero-Junio','2018');
+Query OK, 1 row affected (0.1849 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into boleta (no_control,periodo,año) value(3,'Enero-Junio','2019');
+Query OK, 1 row affected (0.2158 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into detalle_boleta(id_boleta, id_materia, calificacion, tipo_de_evaluacion) values (1, 2, 80, 'Ev.Ord.2da');
+Query OK, 1 row affected (0.2079 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into detalle_boleta(id_boleta, id_materia, calificacion, tipo_de_evaluacion) values (3, 2, 70, 'Ev.Reg.2da');
+Query OK, 1 row affected (0.1316 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into detalle_boleta(id_boleta, id_materia, calificacion, tipo_de_evaluacion) values (2, 3, 100, 'Ev.Ord.1ra');
+Query OK, 1 row affected (0.1588 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into  emergencia(no_control,num_de_emergencia_1,num_de_emergencia_2,tipo_de_sangre,alergias) values(3,'4587948','2364342','AB+','Ninguna');
+Query OK, 1 row affected (0.2046 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into  emergencia(no_control,num_de_emergencia_1,num_de_emergencia_2,tipo_de_sangre,alergias) values(1,'7866765','5647656','B+','Cacahuates');
+Query OK, 1 row affected (0.3023 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > insert into  emergencia(no_control,num_de_emergencia_1,num_de_emergencia_2,tipo_de_sangre,alergias) values(2,'5648646','6456465','A+','Pizza');
+Query OK, 1 row affected (0.1313 sec)
+
+//USUARIOS
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > create user 'Alumno'@'localhost' identified by 'AL2018';
+Query OK, 0 rows affected (0.2556 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > create user 'Maestro'@'localhost' identified by 'MA2018';
+Query OK, 0 rows affected (0.2336 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > create user'Cordinador'@'localhost' identified by 'CO2018';
+Query OK, 0 rows affected (0.2293 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > create user'Coordinador'@'localhost' identified by 'CO2018';
+Query OK, 0 rows affected (0.1942 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > create user 'Director'@'localhost' identified by 'DI2018';
+Query OK, 0 rows affected (0.1338 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > create user 'Secretaria'@'localhost' identified by 'SE2018';
+Query OK, 0 rows affected (0.1751 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.Alumnos to 'Alumno'@'localhost';
+Query OK, 0 rows affected (0.2751 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.boleta to 'Alumno'@'localhost';
+Query OK, 0 rows affected (0.0835 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.horario to 'Alumno'@'localhost';
+Query OK, 0 rows affected (0.0825 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant update (calle,numero,colonia,codigo_postal) on  examenpractico1.Alumnos to 'Alumno'@'localhost';
+Query OK, 0 rows affected (0.2314 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.alumnos to 'Coordinador'@'localhost';
+Query OK, 0 rows affected (0.2428 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.emergencia to 'Coordinador'@'localhost';
+Query OK, 0 rows affected (0.2057 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL >  grant select on examenpractico1.horario to 'Coordinador'@'localhost';
+Query OK, 0 rows affected (0.2708 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.detalle_horario to 'Coordinador'@'localhost';
+Query OK, 0 rows affected (0.2392 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.boleta to 'Coordinador'@'localhost';
+Query OK, 0 rows affected (0.2660 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.detalle_boleta to 'Coordinador'@'localhost';
+Query OK, 0 rows affected (0.2593 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant update on examenpractico1.detalle_horario to 'Coordinador'@'localhost';
+Query OK, 0 rows affected (0.1973 secc)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant insert  on examenpractico1.detalle_horario to 'Coordinador'@'localhost';
+Query OK, 0 rows affected (0.1887 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant insert (calificacion,tipo_de_evaluacion) on examenpractico1.detalle_boleta to 'Maestro'@'localhost';
+Query OK, 0 rows affected (0.1573 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant insert  on examenpractico1.actividad_complementaria to 'Coordinador'@'localhost';
+Query OK, 0 rows affected (0.2262 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.alumnos to 'Secretaria'@'localhost';
+Query OK, 0 rows affected (0.1682 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.emergencia to 'Secretaria'@'localhost';
+Query OK, 0 rows affected (0.2211 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.boleta to 'Secretaria'@'localhost';
+Query OK, 0 rows affected (0.2119 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select on examenpractico1.detalle_boleta to 'Secretaria'@'localhost';
+Query OK, 0 rows affected (0.2517 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select  on examenpractico1.actividad_complementaria to 'Secretaria'@'localhost';
+Query OK, 0 rows affected (0.2706 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select  on examenpractico1.beca to 'Secretaria'@'localhost';
+Query OK, 0 rows affected (0.2484 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select  on examenpractico1.becario to 'Secretaria'@'localhost';
+Query OK, 0 rows affected (0.1480 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant insert  on examenpractico1.becario to 'Secretaria'@'localhost';
+Query OK, 0 rows affected (0.2240 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select  on examenpractico1.* to 'Director'@'localhost';
+Query OK, 0 rows affected (0.1358 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > create user 'Jefe'@'localhost' identified by 'JE2018';
+Query OK, 0 rows affected (0.2690 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select  on examenpractico1.empleado to 'Jefe'@'localhost';
+Query OK, 0 rows affected (0.0768 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant select  on examenpractico1.puesto to 'Jefe'@'localhost';
+Query OK, 0 rows affected (0.2411 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant insert  on examenpractico1.empleados_puestos to 'Jefe'@'localhost';
+Query OK, 0 rows affected (0.1899 sec)
+
+ MySQL  localhost:3306 ssl  examenpractico1  SQL > grant insert  on examenpractico1.empleado to 'Jefe'@'localhost';
+Query OK, 0 rows affected (0.1988 sec)
+
+
+
+
+
+
+
+//MEJORAS
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table Alumnos modify curp varchar(20) UNIQUE NOT NULL;
+Query OK, 0 rows affected (0.5606 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table horario drop column id_dh;
+Query OK, 0 rows affected (0.9737 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table horario drop column semestre;
+Query OK, 0 rows affected (1.0561 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table horario drop column id_carrera;
+Query OK, 0 rows affected (1.1297 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table detalle_horario add column id_horario int;
+Query OK, 0 rows affected (0.6119 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table detalle_horario add column id_empleado int;
+Query OK, 0 rows affected (1.3611 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table Empleado modify column rfc varchar(20) UNIQUE NOT NULL;
+Query OK, 0 rows affected, 1 warning (1.8407 sec)
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table Empleado modify column curp varchar(20) UNIQUE NOT NULL;
+Query OK, 0 rows affected, 1 warning (1.6508 sec)
+
+
+ MySQL  localhost:3306 ssl  instituto  SQL > alter table hora modify column hora varchar(13);
+Query OK, 0 rows affected (1.1323 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+
+alter table carrera add column clave_depar int;
+Query OK, 0 rows affected (0.4767 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
